@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useRef, useState } from "react";
+import { useRef } from "react";
 import { layoutStyle } from "../styles/layout";
 import { AiOutlineMenu } from "react-icons/ai";
 export const Header = () => {
@@ -7,6 +7,7 @@ export const Header = () => {
 
   const handleOnClick = () => {
     menuRef.current?.classList.toggle("hidden");
+    
   };
 
   return (
@@ -44,7 +45,7 @@ export const Header = () => {
           </a>
           <a
             href="#"
-            className="bg-teal-500 text-white hover:bg-teal-300 hover:text-stone-100 duration-100 transition-colors ease-in-out rounded-full py-2 px-4"
+            className="bg-teal-400/90 text-white hover:bg-teal-300 hover:text-stone-100 duration-100 transition-colors ease-in-out rounded-full py-2 px-4"
           >
             Sign Up
           </a>
@@ -57,9 +58,9 @@ export const Header = () => {
       {/* Mobile Burger Menu */}
       <div
         ref={menuRef}
-        className={`hidden md:hidden w-full px-5 absolute inset-y-24 z-10`}
+        className={`hidden transition-all duration-150 ease-in-out md:hidden w-full px-5 absolute inset-y-24 z-10 `}
       >
-        <div className="bg-purple-950 text-white grid place-items-center font-bold gap-8 p-8 rounded-xl text-lg">
+        <div className="bg-purple-950 text-white grid place-items-center font-bold gap-8 p-8 rounded-xl text-lg shadow-xl">
           <a
             href="/"
             className=" hover:text-black transition-colors duration-100 ease-linear"
