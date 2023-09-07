@@ -1,22 +1,36 @@
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { layoutStyle } from "../styles/layout";
 import { AiOutlineMenu } from "react-icons/ai";
 export const Header = () => {
-  // const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    const handleMouseDown = (e: MouseEvent) => {
+      if (
+        !menuRef.current?.contains(e.target as Node) &&
+        !menuButtonRef.current?.contains(e.target as Node)
+      )
+        setIsMenuOpen(() => false);
+    };
+
+    document.addEventListener("mousedown", handleMouseDown);
+
+    return () => document.removeEventListener("mousedown", handleMouseDown);
+  }, [menuRef]);
 
   const handleOnClick = () => {
-    menuRef.current?.classList.toggle("hidden");
-    
+    setIsMenuOpen((value) => !value);
   };
 
   return (
     <header className="w-full flex flex-col mt-2 md:mt-0 md:flex-row justify-center relative">
-      <nav className={`${layoutStyle} flex gap-12`}>
-        <a href="/" className="font-bold text-3xl grow md:grow-0">
+      <nav className={`${layoutStyle} flex gap-12 justify-between`}>
+        <a href="/" className="font-bold text-3xl md:grow-0">
           Short.it
         </a>
-        <div className="gap-8 items-center grow hidden md:flex">
+        <div className="gap-8 items-center md:grow hidden md:flex">
           <a
             href="/"
             className="text-stone-400 hover:text-black transition-colors duration-100 ease-linear"
@@ -50,7 +64,11 @@ export const Header = () => {
             Sign Up
           </a>
         </div>
-        <button className="block md:hidden" onClick={() => handleOnClick()}>
+        <button
+          ref={menuButtonRef}
+          className="block md:hidden"
+          onClick={() => handleOnClick()}
+        >
           <AiOutlineMenu size={25} />
         </button>
       </nav>
@@ -58,7 +76,9 @@ export const Header = () => {
       {/* Mobile Burger Menu */}
       <div
         ref={menuRef}
-        className={`hidden transition-all duration-150 ease-in-out md:hidden w-full px-5 absolute inset-y-24 z-10 `}
+        className={`${
+          isMenuOpen ? "block" : "hidden"
+        }  transition-all duration-150 ease-in-out md:hidden w-full px-5 absolute inset-y-24 z-10 `}
       >
         <div className="bg-purple-950 text-white grid place-items-center font-bold gap-8 p-8 rounded-xl text-lg shadow-xl">
           <a
