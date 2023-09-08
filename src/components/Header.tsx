@@ -77,8 +77,8 @@ export const Header = () => {
       <div
         ref={menuRef}
         className={`${
-          isMenuOpen ? "block" : "hidden"
-        }  transition-all duration-150 ease-in-out md:hidden w-full px-5 absolute inset-y-24 z-10 `}
+          isMenuOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-3"
+        } inset-y-20 transition-all duration-150 ease-in-out md:hidden w-full px-5 absolute  z-10 `}
       >
         <div className="bg-purple-950 text-white grid place-items-center font-bold gap-8 p-8 rounded-xl text-lg shadow-xl">
           <a
