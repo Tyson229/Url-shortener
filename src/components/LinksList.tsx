@@ -3,7 +3,7 @@ import { layoutStyle } from "../styles/layout";
 import { ShortenedLinkBox } from "./ShortenedLinkBox";
 
 const LinksList = () => {
-  const { links, setLinks } = useLinkContext();
+  const { links } = useLinkContext();
   return (
     <section className="w-full grid place-items-center -mt-24 pb-12 bg-slate-200 relative z-10">
       {links.length > 0 && (
