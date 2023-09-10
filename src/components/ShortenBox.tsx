@@ -1,13 +1,15 @@
 import { FormEvent, useRef, useState } from "react";
 import { layoutStyle } from "../styles/layout";
 import { fetchLink } from "../api/api";
+import {  useLinkContext } from "../contexts/link-context";
 
 export const ShortenBox = () => {
   const linkRef = useRef<HTMLInputElement>(null);
   const [inputLink, setInputLink] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const { links, setLinks } = useLinkContext();
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
     if (inputLink.length === 0) {
@@ -15,18 +17,20 @@ export const ShortenBox = () => {
       linkRef.current?.focus();
       return;
     } else {
-      fetchLink(inputLink)
-        .then((data) => {
-          console.log(data.result.full_short_link);
-          setErrorMessage(() => "");
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      try {
+        const data = await fetchLink(inputLink);
+        const original = data.result.original_link;
+        const shortened = data.result.full_short_link;
+
+        setLinks([...links, { original, shortened }]);
+        setErrorMessage(() => "");
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
   return (
-    <section className={`w-full bg-slate-200 mt-32 -mb-12 flex justify-center`}>
+    <section className={`w-full bg-slate-200 mt-32 flex justify-center`}>
       <div className={`${layoutStyle} relative`}>
         <form
           onSubmit={handleSubmit}
@@ -34,7 +38,7 @@ export const ShortenBox = () => {
             errorMessage ? "md:pb-2 md:pt-6" : "md:py-8"
           } box-border rounded-md grid md:grid-cols-4 ${
             errorMessage ? "gap-2" : "gap-4"
-          }  md:gap-x-2 md:gap-y-0.5 relative -top-24`}
+          }  md:gap-x-2 md:gap-y-0.5 relative -top-24 z-0`}
         >
           <input
             pattern="https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)
