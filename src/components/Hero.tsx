@@ -1,5 +1,5 @@
 import { layoutStyle } from "../styles/layout";
-const {BASE_URL} = import.meta.env
+const { BASE_URL } = import.meta.env;
 const Hero = () => {
   return (
     <section className="w-full justify-center flex relative overflow-x-hidden">
