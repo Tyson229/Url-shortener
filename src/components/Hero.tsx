@@ -1,5 +1,5 @@
 import { layoutStyle } from "../styles/layout";
-
+const BASE_URL = import.meta.env
 const Hero = () => {
   return (
     <section className="w-full justify-center flex relative overflow-x-hidden">
@@ -20,7 +20,7 @@ const Hero = () => {
         </div>
         <img
           className="relative -right-[3rem] md:-right-[5rem] lg:-right-[10rem] w-full md:w-1/2"
-          src="/illustration-working.svg"
+          src={`${BASE_URL}illustration-working.svg`}
         />
       </div>
     </section>
